@@ -1,7 +1,7 @@
 package kea19c.lambda;
 
 @FunctionalInterface
-public interface TwoArguments<x> {
+public interface TwoArguments<T> {
 
-    public x process(x a, x b);
+    public T process(T a, T b);
 }

@@ -1,6 +1,5 @@
 package kea19c.lambda;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,20 +7,22 @@ import java.util.stream.Collectors;
 public class Main {
 
     public static void main(String[] args) {
-        // Generic two argument interface. Here it adds two ints.
-        TwoArguments<Integer> sum = (a, b) -> (a + b);
+        // Generic two argument interface function. Here it adds two ints.
+        TwoArguments<Integer> sum = Integer::sum;
         System.out.println("Result of adding 10 and 20: " + sum.process(10, 20));
-        // Same interface, but here it concatenates two strings.
+        // Same interface function, but here it concatenates two strings.
         TwoArguments<String> concat = (a, b) -> (a + " " + b);
         System.out.println("Result of adding 'Hello' and 'World': " + concat.process("Hello", "World"));
 
-        // Generic one argument interface. Here it converts a list of string numbers to a list of integers.
-        List<String> myStrings = Arrays.asList("1", "2", "3", "4", "5");
-        OneArgument<List<Integer>> intList = li -> li.stream().map(Integer::valueOf).collect(Collectors.toList());
+        // Generic one argument interface function. Here it converts the numbers in a list of strings to a list of integers.
+        List<String> myStrings = Arrays.asList("1", "2", "3", "4", "5", "test");
+        OneArgument<List<Integer>, List<String>> intList = li -> li.stream().filter(x -> x.matches("[+-]?\\d*(\\.\\d+)?")).map(Integer::valueOf).collect(Collectors.toList());
         List<Integer> myInts = intList.method(myStrings);
-
         System.out.println("Adding 1 and 2 from string list: " + (myStrings.get(0) + myStrings.get(1)));
         System.out.println("Adding 1 and 2 from int list: " + (myInts.get(0) + myInts.get(1)));
+        // Same generic interface function. Here it repeat '*' n amount of times.
+        OneArgument<String, Integer> repeatStar = "*"::repeat;
+        System.out.println(repeatStar.method(25));
 
         // Zero argument interface.
         ZeroArguments hello = () -> System.out.println("Hello");
@@ -42,5 +43,6 @@ public class Main {
         List<Movie> moviesOver140 = myMovies.stream().filter(x -> x.getDuration() > 140).collect(Collectors.toList());
         System.out.println("All movies: " + myMovies);
         System.out.println("Movies longer than 140 minutes: " + moviesOver140);*/
+
     }
 }
